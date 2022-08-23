@@ -7,15 +7,15 @@ import (
 	"net/http"
 )
 
-func GetProduct(c *gin.Context) {
-	var product []entity.Product
-	err := models.GetAllProduct(&product)
+func GetOrder(c *gin.Context) {
+	var order []entity.Order
+	err := models.GetAllOrder(&order)
 
 	if err != nil {
 		c.JSONP(http.StatusNotFound, gin.H{
-			"message": "Product nil",
+			"message": "Order nil",
 		})
 	} else {
-		c.JSON(http.StatusOK, product)
+		c.JSON(http.StatusOK, order)
 	}
 }

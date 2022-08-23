@@ -13,19 +13,20 @@ type Customer struct {
 }
 
 type Product struct {
-	IdProduct   int       `gorm:"column:id" json:"id"`
-	NameProduct string    `gorm:"column:name" json:"produc_name"`
+	IdProduct   int       `gorm:"column:id;primaryKey" json:"id"`
+	NameProduct string    `gorm:"column:name" json:"product_name"`
 	Price       int       `json:"price"`
 	CreatedAt   time.Time `gorm:"column:created_at" json:"created_at"`
 	UpdateAt    time.Time `gorm:"column:updated_at" json:"update_at"`
 }
 
 type Order struct {
-	IdOrder    int
-	IdCustomer int
-	Status     string
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	IdOrder            int       `gorm:"column:id;primaryKey" json:"id"`
+	CustomerIdCustomer int       `gorm:"column:user_id" json:"user_id"`
+	Status             string    `json:"status"`
+	Customer           Customer  `gorm:"foreignKey:CustomerIdCustomer" json:"customer"`
+	CreatedAt          time.Time `gorm:"column:created_at" json:"created_at"`
+	UpdateAt           time.Time `gorm:"column:updated_at" json:"update_at"`
 }
 
 type OderDetail struct {
