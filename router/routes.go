@@ -8,12 +8,17 @@ import (
 func Run() {
 	router := gin.Default()
 	v1 := router.Group("/v1")
-	getRoutes(v1)
+	getRoutesCustomer(v1)
+	getRoutesProduct(v1)
 	router.Run("localhost:8081")
 }
 
-func getRoutes(rg *gin.RouterGroup) {
-	route := rg.Group("/customer")
+func getRoutesCustomer(rg *gin.RouterGroup) {
+	customer := rg.Group("/customer")
+	customer.GET("/", controller.GetCustomers)
+}
 
-	route.GET("/", controller.GetCustomers)
+func getRoutesProduct(rg *gin.RouterGroup) {
+	product := rg.Group("/product")
+	product.GET("/", controller.GetProduct)
 }
