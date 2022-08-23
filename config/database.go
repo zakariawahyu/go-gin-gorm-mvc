@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
@@ -22,7 +22,7 @@ func BuildDBConfig() *DBConfig {
 		Port:     3306,
 		User:     "root",
 		Password: "masukdb",
-		DBName:   "golang_db_mysql",
+		DBName:   "laravel_midtrans",
 	}
 
 	return &dbConfig
