@@ -11,6 +11,7 @@ func Run() {
 	getRoutesCustomer(v1)
 	getRoutesProduct(v1)
 	getRoutesOrder(v1)
+	getRoutesOrderDetail(v1)
 	router.Run("localhost:8081")
 }
 
@@ -27,4 +28,9 @@ func getRoutesProduct(rg *gin.RouterGroup) {
 func getRoutesOrder(rg *gin.RouterGroup) {
 	order := rg.Group("/order")
 	order.GET("/", controller.GetOrder)
+}
+
+func getRoutesOrderDetail(rg *gin.RouterGroup) {
+	orderDetail := rg.Group("/order-detail")
+	orderDetail.GET("/", controller.GetOrderDetail)
 }
