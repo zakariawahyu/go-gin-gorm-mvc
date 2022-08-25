@@ -55,7 +55,7 @@ func DatabaseInit() {
 	defer DB.AutoMigrate(
 		&entity.Customer{},
 		&entity.Product{},
-		//&entity.Order{},
+		&entity.Order{},
 		//&entity.OderDetail{},
 		//&entity.Payment{}
 	)

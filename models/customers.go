@@ -6,14 +6,14 @@ import (
 )
 
 func GetAllCustomers(customer *[]entity.Customer) (err error) {
-	if err = config.DB.Find(customer).Error; err != nil {
+	if err = config.DB.Preload("Order").Find(customer).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
 func CreateCustomers(customer *entity.Customer) (err error) {
-	if err = config.DB.Create(customer).Error; err != nil {
+	if err := config.DB.Create(customer).Error; err != nil {
 		return err
 	}
 	return nil

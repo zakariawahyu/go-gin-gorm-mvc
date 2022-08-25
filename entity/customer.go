@@ -3,11 +3,26 @@ package entity
 import "time"
 
 type Customer struct {
-	IdCustomer  int       `gorm:"column:id;primaryKey" json:"id"`
-	FullName    string    `gorm:"column:full_name" json:"full_name"`
-	Username    string    `gorm:"column:username" json:"username"`
-	Email       string    `gorm:"column:email" json:"email"`
-	PhoneNumber string    `gorm:"column:phone_number" json:"phone_number"`
-	CreatedAt   time.Time `gorm:"column:created_at" json:"created_at"`
-	UpdateAt    time.Time `gorm:"column:updated_at" json:"update_at"`
+	ID          int             `gorm:"primaryKey" json:"id"`
+	FullName    string          `gorm:"not null" json:"full_name"`
+	Username    string          `gorm:"not null" json:"username"`
+	Email       string          `gorm:"not null" json:"email"`
+	PhoneNumber string          `gorm:"not null" json:"phone_number"`
+	CreatedAt   time.Time       `gorm:"not null" json:"created_at"`
+	UpdateAt    time.Time       `gorm:"not null" json:"update_at"`
+	Order       []OrderResponse `json:"order"`
+}
+
+type CustomerResponse struct {
+	ID          int       `json:"id"`
+	FullName    string    `json:"full_name"`
+	Username    string    `json:"username"`
+	Email       string    `json:"email"`
+	PhoneNumber string    `json:"phone_number"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdateAt    time.Time `json:"update_at"`
+}
+
+func (CustomerResponse) TableName() string {
+	return "customers"
 }

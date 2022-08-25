@@ -30,6 +30,7 @@ func getRoutesProduct(rg *gin.RouterGroup) {
 func getRoutesOrder(rg *gin.RouterGroup) {
 	order := rg.Group("/order")
 	order.GET("/", controller.GetOrder)
+	order.POST("/", controller.CreateOrder)
 }
 
 func getRoutesOrderDetail(rg *gin.RouterGroup) {

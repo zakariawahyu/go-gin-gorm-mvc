@@ -11,3 +11,10 @@ func GetAllOrder(order *[]entity.Order) (err error) {
 	}
 	return nil
 }
+
+func CreateOrder(order *entity.Order) (err error) {
+	if err := config.DB.Create(order).Error; err != nil {
+		return err
+	}
+	return nil
+}

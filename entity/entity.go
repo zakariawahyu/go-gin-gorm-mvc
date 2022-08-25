@@ -2,15 +2,6 @@ package entity
 
 import "time"
 
-type Order struct {
-	IdOrder            int       `gorm:"column:id;primaryKey" json:"id"`
-	CustomerIdCustomer int       `gorm:"column:user_id" json:"user_id"`
-	Customer           Customer  `gorm:"foreignKey:CustomerIdCustomer" json:"customer"`
-	Status             string    `json:"status"`
-	CreatedAt          time.Time `gorm:"column:created_at" json:"created_at"`
-	UpdateAt           time.Time `gorm:"column:updated_at" json:"update_at"`
-}
-
 type OderDetail struct {
 	IdOrderDetails   int       `gorm:"column:id" json:"id"`
 	OrderIdOrder     int       `gorm:"column:order_id" json:"order_id"`
