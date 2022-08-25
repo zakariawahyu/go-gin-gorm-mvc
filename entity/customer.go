@@ -3,14 +3,14 @@ package entity
 import "time"
 
 type Customer struct {
-	ID          int             `gorm:"primaryKey" json:"id"`
-	FullName    string          `gorm:"not null" json:"full_name"`
-	Username    string          `gorm:"not null" json:"username"`
-	Email       string          `gorm:"not null" json:"email"`
-	PhoneNumber string          `gorm:"not null" json:"phone_number"`
-	CreatedAt   time.Time       `gorm:"not null" json:"created_at"`
-	UpdateAt    time.Time       `gorm:"not null" json:"update_at"`
-	Order       []OrderResponse `json:"order"`
+	ID          int       `gorm:"primaryKey" json:"id"`
+	FullName    string    `gorm:"not null" json:"full_name"`
+	Username    string    `gorm:"not null" json:"username"`
+	Email       string    `gorm:"not null" json:"email"`
+	PhoneNumber string    `gorm:"not null" json:"phone_number"`
+	CreatedAt   time.Time `gorm:"not null" json:"created_at"`
+	UpdateAt    time.Time `gorm:"not null" json:"update_at"`
+	Order       []Order   `json:"order"`
 }
 
 type CustomerResponse struct {

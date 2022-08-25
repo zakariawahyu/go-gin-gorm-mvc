@@ -56,7 +56,7 @@ func DatabaseInit() {
 		&entity.Customer{},
 		&entity.Product{},
 		&entity.Order{},
-		//&entity.OderDetail{},
+		&entity.OrderDetail{},
 		//&entity.Payment{}
 	)
 }

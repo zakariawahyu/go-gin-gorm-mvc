@@ -6,7 +6,7 @@ import (
 )
 
 func GetAllCustomers(customer *[]entity.Customer) (err error) {
-	if err = config.DB.Preload("Order").Find(customer).Error; err != nil {
+	if err = config.DB.Preload("Order.OrderDetail.Product").Find(customer).Error; err != nil {
 		return err
 	}
 	return nil

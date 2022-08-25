@@ -8,7 +8,7 @@ import (
 )
 
 func GetOrderDetail(c *gin.Context) {
-	var orderDetail []entity.OderDetail
+	var orderDetail []entity.OrderDetail
 	err := models.GetAllOrderDetail(&orderDetail)
 
 	if err != nil {
