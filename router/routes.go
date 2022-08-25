@@ -18,11 +18,13 @@ func Run() {
 func getRoutesCustomer(rg *gin.RouterGroup) {
 	customer := rg.Group("/customer")
 	customer.GET("/", controller.GetCustomers)
+	customer.POST("/", controller.CreateCustomers)
 }
 
 func getRoutesProduct(rg *gin.RouterGroup) {
 	product := rg.Group("/product")
 	product.GET("/", controller.GetProduct)
+	product.POST("/", controller.CreateProduct)
 }
 
 func getRoutesOrder(rg *gin.RouterGroup) {

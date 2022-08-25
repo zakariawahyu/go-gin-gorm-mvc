@@ -11,3 +11,10 @@ func GetAllProduct(product *[]entity.Product) (err error) {
 	}
 	return nil
 }
+
+func CreateProduct(product *entity.Product) (err error) {
+	if err := config.DB.Create(product).Error; err != nil {
+		return err
+	}
+	return nil
+}

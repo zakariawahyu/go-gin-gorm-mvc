@@ -11,3 +11,10 @@ func GetAllCustomers(customer *[]entity.Customer) (err error) {
 	}
 	return nil
 }
+
+func CreateCustomers(customer *entity.Customer) (err error) {
+	if err = config.DB.Create(customer).Error; err != nil {
+		return err
+	}
+	return nil
+}
