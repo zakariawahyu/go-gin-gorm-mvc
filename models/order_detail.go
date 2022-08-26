@@ -6,7 +6,7 @@ import (
 )
 
 func GetAllOrderDetail(orderDetail *[]entity.OrderDetail) (err error) {
-	if err = config.DB.Preload("Order.Customer").Preload("Product").Find(orderDetail).Error; err != nil {
+	if err = config.DB.Preload("Product").Preload("Order.Customer").Find(orderDetail).Error; err != nil {
 		return err
 	}
 	return nil

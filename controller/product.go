@@ -6,6 +6,7 @@ import (
 	"github.com/zakariawahyu/go-gin-gorm-mvc/entity"
 	"github.com/zakariawahyu/go-gin-gorm-mvc/models"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -48,4 +49,22 @@ func CreateProduct(c *gin.Context) {
 		})
 		return
 	}
+}
+
+func ShowProduct(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Params.ByName("id"))
+	var product entity.Product
+
+	err := models.GetProductByID(&product, id)
+	if err != nil {
+		fmt.Println(err.Error())
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"product": product,
+		})
+		return
+	}
+
 }

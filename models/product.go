@@ -18,3 +18,10 @@ func CreateProduct(product *entity.Product) (err error) {
 	}
 	return nil
 }
+
+func GetProductByID(product *entity.Product, id int) (err error) {
+	if err := config.DB.Where("id = ?", id).First(product).Error; err != nil {
+		return err
+	}
+	return nil
+}

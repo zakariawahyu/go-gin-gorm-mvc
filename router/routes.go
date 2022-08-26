@@ -25,6 +25,7 @@ func getRoutesProduct(rg *gin.RouterGroup) {
 	product := rg.Group("/product")
 	product.GET("/", controller.GetProduct)
 	product.POST("/", controller.CreateProduct)
+	product.GET("/:id", controller.ShowProduct)
 }
 
 func getRoutesOrder(rg *gin.RouterGroup) {

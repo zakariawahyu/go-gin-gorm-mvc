@@ -27,6 +27,8 @@ func GetOrder(c *gin.Context) {
 func CreateOrder(c *gin.Context) {
 	var order entity.Order
 	var orderDetail entity.OrderDetail
+	var product entity.Product
+
 	if err := c.ShouldBindJSON(&order); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "cannot handle request",
@@ -40,10 +42,12 @@ func CreateOrder(c *gin.Context) {
 	order.Status = "created"
 	err := models.CreateOrder(&order)
 
-	for _, productID := range order.ProductID {
+	for _, detailOrder := range order.OrderDetailCustomer {
+		_ = models.GetProductByID(&product, detailOrder.ID)
 		orderDetail.OrderID = order.ID
-		orderDetail.ProductID = productID
-		orderDetail.Qty = 1
+		orderDetail.ProductID = detailOrder.ID
+		orderDetail.Qty = detailOrder.Qty
+		orderDetail.Amount = detailOrder.Qty * product.Price
 		orderDetail.CreatedAt = time.Now()
 		orderDetail.UpdateAt = time.Now()
 		models.CreateOrderDetail(&orderDetail)
