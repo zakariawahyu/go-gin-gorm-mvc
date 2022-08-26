@@ -18,6 +18,9 @@ func Run() {
 func getRoutesCustomer(rg *gin.RouterGroup) {
 	customer := rg.Group("/customer")
 	customer.GET("/", controller.GetCustomers)
+	customer.GET("/:id", controller.ShowCustomer)
+	customer.GET("/detail-order", controller.GetCustomersWithOrder)
+	customer.GET("/detail-order/:id", controller.ShowCustomerWithOrder)
 	customer.POST("/", controller.CreateCustomers)
 }
 

@@ -10,7 +10,21 @@ type Customer struct {
 	PhoneNumber string    `gorm:"not null" json:"phone_number"`
 	CreatedAt   time.Time `gorm:"not null" json:"created_at"`
 	UpdateAt    time.Time `gorm:"not null" json:"update_at"`
-	Order       []Order   `json:"order"`
+	Order       []Order   `json:"orders"`
+}
+
+type CustomerWithoutOrder struct {
+	ID          int       `json:"id"`
+	FullName    string    `json:"full_name"`
+	Username    string    `json:"username"`
+	Email       string    `json:"email"`
+	PhoneNumber string    `json:"phone_number"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdateAt    time.Time `json:"update_at"`
+}
+
+func (CustomerWithoutOrder) TableName() string {
+	return "customers"
 }
 
 type CustomerResponse struct {
