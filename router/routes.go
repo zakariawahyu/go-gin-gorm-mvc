@@ -22,6 +22,8 @@ func getRoutesCustomer(rg *gin.RouterGroup) {
 	customer.GET("/detail-order", controller.GetCustomersWithOrder)
 	customer.GET("/detail-order/:id", controller.ShowCustomerWithOrder)
 	customer.POST("/", controller.CreateCustomers)
+	customer.PUT("/:id", controller.UpdateCustomer)
+	customer.DELETE("/:id", controller.DeleteCustomer)
 }
 
 func getRoutesProduct(rg *gin.RouterGroup) {
