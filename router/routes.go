@@ -31,6 +31,8 @@ func getRoutesProduct(rg *gin.RouterGroup) {
 	product.GET("/", controller.GetProduct)
 	product.POST("/", controller.CreateProduct)
 	product.GET("/:id", controller.ShowProduct)
+	product.PUT("/:id", controller.UpdateProduct)
+	product.DELETE("/:id", controller.DeleteProduct)
 }
 
 func getRoutesOrder(rg *gin.RouterGroup) {

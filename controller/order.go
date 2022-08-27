@@ -43,7 +43,7 @@ func CreateOrder(c *gin.Context) {
 	err := models.CreateOrder(&order)
 
 	for _, detailOrder := range order.OrderDetailCustomer {
-		_ = models.GetProductByID(&product, detailOrder.ID)
+		_ = models.ShowProduct(&product, detailOrder.ID)
 		orderDetail.OrderID = order.ID
 		orderDetail.ProductID = detailOrder.ID
 		orderDetail.Qty = detailOrder.Qty

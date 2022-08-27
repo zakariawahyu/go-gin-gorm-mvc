@@ -34,6 +34,7 @@ func CreateProduct(c *gin.Context) {
 		return
 	}
 
+	product.IsActive = true
 	product.CreatedAt = time.Now()
 	product.UpdateAt = time.Now()
 	err := models.CreateProduct(&product)
@@ -55,10 +56,11 @@ func ShowProduct(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Params.ByName("id"))
 	var product entity.Product
 
-	err := models.GetProductByID(&product, id)
+	err := models.ShowProduct(&product, id)
 	if err != nil {
-		fmt.Println(err.Error())
-		c.AbortWithStatus(http.StatusBadRequest)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
 		return
 	} else {
 		c.JSON(http.StatusOK, gin.H{
@@ -66,5 +68,62 @@ func ShowProduct(c *gin.Context) {
 		})
 		return
 	}
+}
 
+func UpdateProduct(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Params.ByName("id"))
+	product := new(entity.Product)
+
+	if err := models.ShowProduct(product, id); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	if err := c.ShouldBindJSON(product); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	product.UpdateAt = time.Now()
+	err := models.UpdateProduct(product, id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "data updated successfully",
+		})
+		return
+	}
+}
+
+func DeleteProduct(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Params.ByName("id"))
+	product := new(entity.Product)
+
+	if err := models.ShowProduct(product, id); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	err := models.DeleteProduct(product, id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "data deleted successfully",
+		})
+		return
+	}
 }
