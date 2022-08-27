@@ -3,7 +3,6 @@ package controller
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/zakariawahyu/go-gin-gorm-mvc/config"
 	"github.com/zakariawahyu/go-gin-gorm-mvc/entity"
 	"github.com/zakariawahyu/go-gin-gorm-mvc/models"
 	"net/http"
@@ -12,7 +11,7 @@ import (
 )
 
 func GetCustomers(c *gin.Context) {
-	var customers []entity.CustomerWithoutOrder
+	var customers []entity.CustomerResponse
 	err := models.GetAllCustomers(&customers)
 
 	if err != nil {
@@ -70,24 +69,18 @@ func CreateCustomers(c *gin.Context) {
 
 func ShowCustomer(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Params.ByName("id"))
-	var customer entity.CustomerWithoutOrder
+	var customer entity.CustomerResponse
 
 	err := models.ShowCustomer(&customer, id)
 
 	if err != nil {
-		fmt.Println(err.Error())
-		c.AbortWithStatus(http.StatusBadRequest)
-		return
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": err.Error(),
+		})
 	} else {
-		if customer.Username == "" {
-			c.JSON(http.StatusNotFound, gin.H{
-				"message": "Customer not found",
-			})
-		} else {
-			c.JSON(http.StatusOK, gin.H{
-				"customer": customer,
-			})
-		}
+		c.JSON(http.StatusOK, gin.H{
+			"customer": customer,
+		})
 	}
 }
 
@@ -98,25 +91,26 @@ func ShowCustomerWithOrder(c *gin.Context) {
 	err := models.ShowCustomerWithOrder(&customer, id)
 
 	if err != nil {
-		fmt.Println(err.Error())
-		c.AbortWithStatus(http.StatusBadRequest)
-		return
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": err.Error(),
+		})
 	} else {
-		if customer.Username == "" {
-			c.JSON(http.StatusNotFound, gin.H{
-				"message": "Customer not found",
-			})
-		} else {
-			c.JSON(http.StatusOK, gin.H{
-				"customer": customer,
-			})
-		}
+		c.JSON(http.StatusOK, gin.H{
+			"customer": customer,
+		})
 	}
 }
 
 func UpdateCustomer(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Params.ByName("id"))
 	var customer entity.CustomerResponse
+
+	if err := models.ShowCustomer(&customer, id); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
 
 	if err := c.ShouldBindJSON(&customer); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -126,16 +120,17 @@ func UpdateCustomer(c *gin.Context) {
 	}
 
 	customer.UpdateAt = time.Now()
-	result := config.DB.Where("id = ? and is_active = ?", id, true).Updates(&customer)
-
-	if result.RowsAffected == 0 {
-		c.JSON(http.StatusNotFound, gin.H{
-			"message": "customer not found",
+	err := models.UpdateCustomer(&customer, id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
 		})
+		return
 	} else {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "data updated successfully",
 		})
+		return
 	}
 }
 
@@ -143,15 +138,24 @@ func DeleteCustomer(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Params.ByName("id"))
 	var customer entity.CustomerResponse
 
-	result := config.DB.Model(&customer).Where("id = ? and is_active = ?", id, true).Update("is_active", false)
-
-	if result.RowsAffected == 0 {
+	if err := models.ShowCustomer(&customer, id); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
-			"message": "customer not found",
+			"message": err.Error(),
 		})
+		return
+	}
+
+	customer.UpdateAt = time.Now()
+	err := models.DeleteCustomer(&customer, id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
 	} else {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "data deleted successfully",
 		})
+		return
 	}
 }

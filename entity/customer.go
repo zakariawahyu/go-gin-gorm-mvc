@@ -14,20 +14,6 @@ type Customer struct {
 	Order       []Order   `json:"orders"`
 }
 
-type CustomerWithoutOrder struct {
-	ID          int       `json:"id"`
-	FullName    string    `json:"full_name"`
-	Username    string    `json:"username"`
-	Email       string    `json:"email"`
-	PhoneNumber string    `json:"phone_number"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdateAt    time.Time `json:"update_at"`
-}
-
-func (CustomerWithoutOrder) TableName() string {
-	return "customers"
-}
-
 type CustomerResponse struct {
 	ID          int       `json:"id"`
 	FullName    string    `json:"full_name"`
