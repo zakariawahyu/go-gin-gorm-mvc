@@ -34,7 +34,7 @@ func ShowCustomer(customer *entity.CustomerWithoutOrder, id int) (err error) {
 }
 
 func ShowCustomerWithOrder(customer *entity.Customer, id int) (err error) {
-	if err := config.DB.Where("id = ?", id).Preload("Order.OrderDetail").Find(customer).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).Preload("Order.OrderDetail.Product").Find(customer).Error; err != nil {
 		return err
 	}
 	return nil
