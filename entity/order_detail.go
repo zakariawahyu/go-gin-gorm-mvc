@@ -14,8 +14,8 @@ type OrderDetail struct {
 }
 
 type OrderDetailWithoutOrder struct {
-	OrderID   int       `gorm:"not null" json:"order_id"`
-	ProductID int       `gorm:"not null" json:"product_id"`
+	OrderID   int       `json:"order_id"`
+	ProductID int       `json:"product_id"`
 	Product   Product   `json:"product"`
 	Qty       int       `json:"qty"`
 	Amount    int       `json:"amount"`

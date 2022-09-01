@@ -12,6 +12,7 @@ func Run() {
 	getRoutesProduct(v1)
 	getRoutesOrder(v1)
 	getRoutesOrderDetail(v1)
+	getRouterPayment(v1)
 	router.Run("localhost:8081")
 }
 
@@ -39,9 +40,15 @@ func getRoutesOrder(rg *gin.RouterGroup) {
 	order := rg.Group("/order")
 	order.GET("/", controller.GetOrder)
 	order.POST("/", controller.CreateOrder)
+	order.GET("/:id", controller.GetOrderById)
 }
 
 func getRoutesOrderDetail(rg *gin.RouterGroup) {
 	orderDetail := rg.Group("/order-detail")
 	orderDetail.GET("/", controller.GetOrderDetail)
+}
+
+func getRouterPayment(rg *gin.RouterGroup) {
+	payment := rg.Group("/payment")
+	payment.POST("/", controller.CreatePayment)
 }

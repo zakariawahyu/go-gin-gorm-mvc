@@ -6,22 +6,22 @@ import (
 	"github.com/zakariawahyu/go-gin-gorm-mvc/entity"
 	"github.com/zakariawahyu/go-gin-gorm-mvc/models"
 	"net/http"
+	"strconv"
 	"time"
 )
 
 func GetOrder(c *gin.Context) {
-	var order []entity.Order
-	err := models.GetAllOrder(&order)
-
-	if err != nil {
-		c.JSONP(http.StatusNotFound, gin.H{
-			"message": "Order nil",
+	var order []entity.OrderResponse
+	if err := models.GetAllOrder(&order); err != nil {
+		c.JSONP(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
 		})
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"orders": order,
-		})
+		return
 	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"orders": order,
+	})
 }
 
 func CreateOrder(c *gin.Context) {
@@ -63,4 +63,20 @@ func CreateOrder(c *gin.Context) {
 			"order":   order,
 		})
 	}
+}
+
+func GetOrderById(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Params.ByName("id"))
+	var order entity.OrderResponse
+
+	if err := models.GetOrderById(&order, id); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"order": order,
+	})
 }
